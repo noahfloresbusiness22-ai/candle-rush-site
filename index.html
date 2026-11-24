@@ -250,7 +250,7 @@ footer .links a.is-off{color:var(--mut);pointer-events:none;opacity:.6}
     <div class="reveal">
       <span class="eyebrow"><span class="dot"></span><span><span data-bind="prizeSeason" data-empty="SEASON 1">SEASON 1</span> LIVE &middot; FREE TO PLAY &middot; NO SIGN-UP</span></span>
       <h1><span class="glitch" data-text="PLAY THE CHART.">PLAY THE CHART.</span><br><span class="grad">OWN THE RUSH.</span></h1>
-      <p class="lede">Catch green candles. Dodge the rugs. Stack combos, climb the season board, and compete for a SOL prize pool.</p>
+      <p class="lede">Catch green candles. Dodge the rugs. Stack combos, climb the season board<span data-prize-on>, and compete for a SOL prize pool</span>.</p>
       <div class="cta">
         <a class="btn primary" href="#play">Play now</a>
         <a class="btn ghost" href="#how">How it works</a>
@@ -356,7 +356,7 @@ footer .links a.is-off{color:var(--mut);pointer-events:none;opacity:.6}
     <div class="grid3">
       <div class="card step reveal"><div class="n">01</div><h3>Play free</h3><p>Open the page and hit play. No download, no sign-up, no purchase.</p></div>
       <div class="card step reveal"><div class="n">02</div><h3>Stack combos</h3><p>Chain green candles to push your multiplier up to x10. Close calls and FOMO mode add bonus points.</p></div>
-      <div class="card step reveal"><div class="n">03</div><h3>Climb the season</h3><p>Top verified scores of each season share the prize pool. Rules are posted before the season starts.</p></div>
+      <div class="card step reveal"><div class="n">03</div><h3>Climb the season</h3><p data-prize-on>Top verified scores of each season share the prize pool. Rules are posted before the season starts.</p><p data-prize-off>Your best runs stack up season by season. Any season prizes are announced before the season starts.</p></div>
     </div>
   </section>
 
@@ -412,7 +412,8 @@ footer .links a.is-off{color:var(--mut);pointer-events:none;opacity:.6}
     </div>
     <div class="reveal">
       <details><summary>Is it really free?</summary><p>Yes. You never need to buy anything to play.</p></details>
-      <details><summary>How do I win SOL?</summary><p>Top verified scores of each season share the prize pool. The pool size and rules are posted before the season starts. Prizes are not guaranteed earnings, and nobody is promised a payout.</p></details>
+      <details data-prize-on><summary>How do I win SOL?</summary><p>Top verified scores of each season share the prize pool. The pool size and rules are posted before the season starts. Prizes are not guaranteed earnings, and nobody is promised a payout.</p></details>
+      <details data-prize-off><summary>Are there prizes?</summary><p>Not right now. If season prizes are added, the pool size and rules are posted here and on X before the season starts. Nothing is promised until it is posted.</p></details>
       <details><summary>Do I need a wallet?</summary><p>Only to receive a prize. Connecting only reads your public address. This site never asks you to sign a transaction, send funds, or share a seed phrase. If anyone asks for those in our name, it is not us.</p></details>
       <details><summary>Is the coin an investment?</summary><p>No. It is a meme coin made for fun. Meme coins are extremely volatile and many go to zero. Nothing here is financial advice. Only risk what you can afford to lose.</p></details>
       <details><summary>Can people cheat?</summary><p>Scores sent from a browser can be faked, so prize scores are checked before anything is paid. Cheaters are removed.</p></details>
@@ -424,7 +425,7 @@ footer .links a.is-off{color:var(--mut);pointer-events:none;opacity:.6}
 <footer>
   <div class="wrap">
     <div class="risk">
-      <b>Risk notice.</b> Meme coins are speculative and extremely volatile, and most lose most of their value. Nothing on this site is financial, legal or tax advice. The game is free to play. Season prizes are not guaranteed earnings. Not affiliated with Solana, Pump.fun, Phantom or any other platform named here.
+      <b>Risk notice.</b> Meme coins are speculative and extremely volatile, and most lose most of their value. Nothing on this site is financial, legal or tax advice. The game is free to play. <span data-prize-on>Season prizes are not guaranteed earnings. </span>Not affiliated with Solana, Pump.fun, Phantom or any other platform named here.
     </div>
     <div class="links">
       <a data-link="x" href="#">X</a>
@@ -445,8 +446,8 @@ footer .links a.is-off{color:var(--mut);pointer-events:none;opacity:.6}
    ============================================================ */
 window.SITE = {
   gameName: "Candle Rush",
-  coinName: "Rush",          // check the name is free on DexScreener before you launch
-  ticker: "RUSH",
+  coinName: "Candle Rush",   // checked on DexScreener 2026-11-24 (partial search). Search again right before launch.
+  ticker: "CANDLERUSH",
   chain: "Solana",
   launchVenue: "Pump.fun",
   supply: "1,000,000,000",   // pump.fun launches use 1B. Change if yours differs.
@@ -464,7 +465,7 @@ window.SITE = {
   /* Prize pool. Only leave enabled if you will really pay it out.
      It is a promise to your players. */
   prize: {
-    enabled: true,
+    enabled: false,          // turned off 2026-11-24 until you decide to pay prizes
     amountSol: null,         // e.g. 5. null shows "Set at launch"
     seasonName: "Season 1"
   }
@@ -1050,6 +1051,8 @@ $$('[data-link]').forEach((a) => {
 $('#prizeOn').style.display = prize.enabled ? '' : 'none';
 $('#prizeOff').style.display = prize.enabled ? 'none' : '';
 $('#prizeAmount').textContent = prize.amountSol ? `${prize.amountSol} SOL` : 'Set at launch';
+$$('[data-prize-on]').forEach((el) => { el.style.display = prize.enabled ? '' : 'none'; });
+$$('[data-prize-off]').forEach((el) => { el.style.display = prize.enabled ? 'none' : ''; });
 
 /* ---- toast ---- */
 let toastT;
